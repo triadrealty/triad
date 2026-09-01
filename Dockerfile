@@ -37,16 +37,16 @@ ENV LOG_FORMAT=json
 ENV PORT=8000
 
 # Auth credentials
-ENV JWT_SECRET=""
+ENV JWT_SECRET="triad-realty-super-secure-production-jwt-token-secret-2026-key"
 ENV DEVELOPER_EMAIL=developer@triad.ae
-ENV DEVELOPER_PASSWORD=""
+ENV DEVELOPER_PASSWORD="Dev@Triad2024!"
 ENV OWNER_EMAIL=owner@triad.ae
-ENV OWNER_PASSWORD=""
+ENV OWNER_PASSWORD="Own@Triad2024!"
 ENV STAFF_EMAIL=normal@triad.ae
-ENV STAFF_PASSWORD=""
+ENV STAFF_PASSWORD="Staff@Triad2024!"
 
 # Database
-ENV MONGO_URI=""
+ENV MONGO_URI="mongodb+srv://king8637g4ff_db_user:Triad123456@triad-cluster.zfjnhni.mongodb.net/triad_realty?retryWrites=true&w=majority&appName=triad-cluster"
 ENV DB_NAME=triad_realty
 
 # Hosts & CORS
