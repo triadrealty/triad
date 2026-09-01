@@ -327,9 +327,6 @@ export default function About() {
 
   const canonicalUrl = `${SITE_URL}/about`;
   // Full AboutPage + Corporation schema with founders from the live team data
-  const founders = Array.isArray(team)
-    ? team.filter((m) => m.isFounder || m.tier === "co-founder")
-    : [];
   const aboutSchema = buildAboutPageSchema(founders, canonicalUrl);
 
   return (
