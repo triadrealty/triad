@@ -5,6 +5,8 @@ import { ArrowLeft, ArrowUpRight, Calendar, Clock } from "lucide-react";
 import { API_URL as API, resolveMediaUrl, SITE_URL } from "../config";
 import { Helmet } from "react-helmet-async";
 import Breadcrumbs from "../components/Breadcrumbs";
+import { buildArticleSchema, buildBreadcrumbSchema } from "../utils/seo";
+
 
 export function Blogs() {
   const [items, setItems] = useState([]);
@@ -22,10 +24,25 @@ export function Blogs() {
   const blogsSchema = {
     "@context": "https://schema.org",
     "@type": "Blog",
-    "name": "Triad Realty Market Insights",
-    "url": canonicalUrl,
-    "description": "Premium real estate insights, market analyses, and off-plan investment updates in Dubai & the UAE."
+    name: "Triad Realty Market Insights",
+    url: canonicalUrl,
+    description: "Premium real estate insights, market analyses, and off-plan investment updates in Dubai & the UAE.",
+    publisher: {
+      "@type": "Organization",
+      name: "Triad Realty",
+      logo: "https://res.cloudinary.com/dhxttgpfj/image/upload/v1783444277/logo_ciuljv.png",
+    },
+    blogPost: items.slice(0, 10).map((b) => ({
+      "@type": "BlogPosting",
+      headline: b.title,
+      url: `${SITE_URL}/blogs/${b.id}`,
+      image: b.cover ? resolveMediaUrl(b.cover) : undefined,
+      datePublished: b.date,
+      author: { "@type": "Person", name: b.author || "Triad Consultant" },
+      description: b.excerpt,
+    })),
   };
+
 
   return (
     <>
@@ -116,23 +133,16 @@ export function BlogDetail() {
   if (!b) return <div className="pt-40 section-pad container-x"><p>Loading…</p></div>;
 
   const canonicalUrl = `${SITE_URL}/blogs/${id}`;
-  const blogPostSchema = {
-    "@context": "https://schema.org",
-    "@type": "BlogPosting",
-    "headline": b.title,
-    "image": resolveMediaUrl(b.cover),
-    "datePublished": b.date,
-    "author": {
-      "@type": "Person",
-      "name": b.author || "Triad Consultant"
-    },
-    "publisher": {
-      "@type": "Organization",
-      "name": "Triad Realty",
-      "logo": "https://res.cloudinary.com/dhxttgpfj/image/upload/v1783444277/logo_ciuljv.png"
-    },
-    "description": b.excerpt
-  };
+  // Full Article schema with author, dates, publisher, image, wordCount etc.
+  const blogPostSchema = buildArticleSchema(
+    { ...b, cover: resolveMediaUrl(b.cover) },
+    canonicalUrl
+  );
+  const breadcrumbsSchema = buildBreadcrumbSchema([
+    { name: "Blogs", url: `${SITE_URL}/blogs` },
+    { name: b.title, url: canonicalUrl },
+  ]);
+
 
   return (
     <>
@@ -147,6 +157,8 @@ export function BlogDetail() {
         <meta property="og:image" content={resolveMediaUrl(b.cover)} />
         <meta name="twitter:card" content="summary_large_image" />
         <script type="application/ld+json">{JSON.stringify(blogPostSchema)}</script>
+        <script type="application/ld+json">{JSON.stringify(breadcrumbsSchema)}</script>
+
       </Helmet>
 
       <section className="pt-32" data-testid="blog-detail">

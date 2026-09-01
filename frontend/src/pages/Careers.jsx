@@ -4,6 +4,7 @@ import { ArrowRight, CheckCircle2 } from "lucide-react";
 import { API_URL as API, SITE_URL } from "../config";
 import { Helmet } from "react-helmet-async";
 import Breadcrumbs from "../components/Breadcrumbs";
+import { buildJobPostingSchema } from "../utils/seo";
 
 const WHY = [
   { t: "Senior mentorship", d: "Direct partnership with founders and senior consultants from day one." },
@@ -35,28 +36,34 @@ export default function Careers() {
   };
 
   const canonicalUrl = `${SITE_URL}/careers`;
-  const careersSchema = {
+  // Generate a JobPosting schema per open position from the live API
+  const jobPostingSchemas = positions.map((pos) => buildJobPostingSchema(pos)).filter(Boolean);
+  // Fallback WebPage schema when no positions are loaded yet
+  const pageSchema = {
     "@context": "https://schema.org",
     "@type": "WebPage",
-    "name": "Careers & Partner Opportunities | Triad Realty",
-    "url": canonicalUrl,
-    "description": "Join our team of luxury real estate consultants in Dubai. Explore open roles and career opportunities at Triad Realty."
+    name: "Careers & Partner Opportunities | Triad Realty",
+    url: canonicalUrl,
+    description: "Join our team of luxury real estate consultants in Dubai. Explore open roles and career opportunities at Triad Realty.",
   };
 
   return (
     <>
       <Helmet>
-        <title>Careers & Opportunities | Triad Realty Dubai</title>
+        <title>Careers &amp; Opportunities | Triad Realty Dubai</title>
         <meta name="description" content="Build your real estate career in Dubai with Triad Realty. Explore senior agent and portfolio advisor opportunities in our analytics-led team." />
         <link rel="canonical" href={canonicalUrl} />
-        <meta property="og:title" content="Careers & Opportunities | Triad Realty Dubai" />
+        <meta property="og:title" content="Careers &amp; Opportunities | Triad Realty Dubai" />
         <meta property="og:description" content="Build your real estate career in Dubai with Triad Realty." />
         <meta property="og:type" content="website" />
         <meta property="og:url" content={canonicalUrl} />
-        <meta property="og:image" content={`${SITE_URL}/og-image.jpg`} />
+        <meta property="og:image" content="https://res.cloudinary.com/dhxttgpfj/image/upload/v1783444306/three_founders_kuwre9.jpg" />
         <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:image" content={`${SITE_URL}/twitter-image.jpg`} />
-        <script type="application/ld+json">{JSON.stringify(careersSchema)}</script>
+        <meta name="twitter:image" content="https://res.cloudinary.com/dhxttgpfj/image/upload/v1783444306/three_founders_kuwre9.jpg" />
+        <script type="application/ld+json">{JSON.stringify(pageSchema)}</script>
+        {jobPostingSchemas.map((schema, i) => (
+          <script key={i} type="application/ld+json">{JSON.stringify(schema)}</script>
+        ))}
       </Helmet>
 
       <section className="pt-40 pb-12 section-pad bg-white" data-testid="careers-hero">

@@ -16,8 +16,16 @@ jobs:
 
       - name: Trigger Render deploy hook
         run: |
-          curl -f -X POST "${{ secrets.RENDER_DEPLOY_HOOK_URL }}" \
-            -H "Accept: application/json" \
-            --silent --show-error
+          if [ -n "${RENDER_DEPLOY_HOOK_URL}" ]; then
+            echo "Triggering Render deploy hook..."
+            curl -f -X POST "${RENDER_DEPLOY_HOOK_URL}" \
+              -H "Accept: application/json" \
+              --silent --show-error
+            echo "Render deploy hook triggered successfully!"
+          else
+            echo "RENDER_DEPLOY_HOOK_URL secret not provided."
+            echo "If your Render Web Service is connected to this repository (triadrealty/triad),"
+            echo "Render will automatically build and deploy this commit via native GitHub integration."
+          fi
         env:
           RENDER_DEPLOY_HOOK_URL: ${{ secrets.RENDER_DEPLOY_HOOK_URL }}

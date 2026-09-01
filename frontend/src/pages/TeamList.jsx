@@ -5,6 +5,8 @@ import axios from "axios";
 import { API_URL as API, resolveMediaUrl, SITE_URL } from "../config";
 import { Helmet } from "react-helmet-async";
 import Breadcrumbs from "../components/Breadcrumbs";
+import { buildTeamListSchema, buildBreadcrumbSchema } from "../utils/seo";
+
 
 function toWhatsApp(phone) {
   if (!phone) return "";
@@ -136,13 +138,10 @@ export default function TeamList() {
   }
 
   const canonicalUrl = `${SITE_URL}/team`;
-  const teamSchema = {
-    "@context": "https://schema.org",
-    "@type": "WebPage",
-    "name": "Triad Realty Advisors and Consultants",
-    "url": canonicalUrl,
-    "description": "Meet our specialized team of property consultants, co-founders, and senior portfolio managers."
-  };
+  // CollectionPage with hasPart Person references
+  const teamSchema = buildTeamListSchema(team, canonicalUrl);
+  const breadcrumbSchema = buildBreadcrumbSchema([{ name: "Team", url: canonicalUrl }]);
+
 
   return (
     <>
@@ -158,6 +157,8 @@ export default function TeamList() {
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:image" content={`${SITE_URL}/twitter-image.jpg`} />
         <script type="application/ld+json">{JSON.stringify(teamSchema)}</script>
+        <script type="application/ld+json">{JSON.stringify(breadcrumbSchema)}</script>
+
       </Helmet>
 
       <section className="relative h-[45vh] min-h-[350px] w-full overflow-hidden bg-neutral-950 flex items-end pb-12 border-b border-white/10" data-testid="team-hero">

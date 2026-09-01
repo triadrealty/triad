@@ -5,6 +5,8 @@ import { GALLERY } from "../data";
 import { X, Play } from "lucide-react";
 import { Helmet } from "react-helmet-async";
 import Breadcrumbs from "../components/Breadcrumbs";
+import { buildImageGallerySchema } from "../utils/seo";
+
 
 export default function Gallery() {
   const [open, setOpen] = useState(null); // { type, url } or null
@@ -93,17 +95,22 @@ export default function Gallery() {
   };
 
   const canonicalUrl = `${SITE_URL}/gallery`;
+  const gallerySchema = buildImageGallerySchema(items, canonicalUrl);
 
   return (
     <>
       <Helmet>
-        <title>Media Gallery & Site Handovers | Triad Realty</title>
+        <title>Media Gallery &amp; Site Handovers | Triad Realty</title>
         <meta name="description" content="Explore our visual media journal documenting site visits, construction updates, premium handovers, and active launches across Dubai." />
         <link rel="canonical" href={canonicalUrl} />
-        <meta property="og:title" content="Media Gallery & Site Handovers | Triad Realty" />
+        <meta property="og:title" content="Media Gallery &amp; Site Handovers | Triad Realty" />
         <meta property="og:description" content="Explore our visual media journal documenting site visits and handovers in Dubai." />
         <meta property="og:type" content="website" />
         <meta property="og:url" content={canonicalUrl} />
+        <meta property="og:image" content="https://res.cloudinary.com/dhxttgpfj/image/upload/v1783444306/three_founders_kuwre9.jpg" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:image" content="https://res.cloudinary.com/dhxttgpfj/image/upload/v1783444306/three_founders_kuwre9.jpg" />
+        {!loading && <script type="application/ld+json">{JSON.stringify(gallerySchema)}</script>}
       </Helmet>
 
       <section className="pt-40 pb-12 section-pad bg-white" data-testid="gallery-hero">

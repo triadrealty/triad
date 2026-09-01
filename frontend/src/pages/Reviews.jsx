@@ -5,6 +5,8 @@ import { Film, Star, Quote, X, Play } from "lucide-react";
 import { REVIEWS } from "../data";
 import { Helmet } from "react-helmet-async";
 import Breadcrumbs from "../components/Breadcrumbs";
+import { buildAggregateRatingSchema } from "../utils/seo";
+
 
 export default function Reviews() {
   const [reviews, setReviews] = useState([]);
@@ -146,6 +148,7 @@ export default function Reviews() {
   const textReviews = reviews.filter((r) => !r.youtubeCode || r.youtubeCode.trim() === "");
 
   const canonicalUrl = `${SITE_URL}/reviews`;
+  const ratingSchema = buildAggregateRatingSchema(reviews, settings);
 
   return (
     <>
@@ -157,6 +160,10 @@ export default function Reviews() {
         <meta property="og:description" content="Watch video testimonials from clients who built portfolios with Triad Realty." />
         <meta property="og:type" content="website" />
         <meta property="og:url" content={canonicalUrl} />
+        <meta property="og:image" content="https://res.cloudinary.com/dhxttgpfj/image/upload/v1783444306/three_founders_kuwre9.jpg" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:image" content="https://res.cloudinary.com/dhxttgpfj/image/upload/v1783444306/three_founders_kuwre9.jpg" />
+        {!loading && <script type="application/ld+json">{JSON.stringify(ratingSchema)}</script>}
       </Helmet>
 
       <section className="pt-40 pb-12 section-pad bg-white" data-testid="reviews-hero">

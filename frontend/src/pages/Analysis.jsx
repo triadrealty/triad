@@ -10,6 +10,8 @@ import { Helmet } from "react-helmet-async";
 import Breadcrumbs from "../components/Breadcrumbs";
 import { reallyApi } from "../services/api/realEstateApi";
 import { sortAlphabetically } from "../utils/propertyFilters";
+import { buildWebAppSchema, buildFAQSchema } from "../utils/seo";
+
 
 const GATE_KEY = "triad_lead_unlocked";
 
@@ -183,6 +185,13 @@ export default function Analysis() {
   const now = new Date();
 
   const canonicalUrl = `${SITE_URL}/analysis`;
+  const webAppSchema = buildWebAppSchema(canonicalUrl);
+  const faqSchema = buildFAQSchema([
+    { question: "What is price per sqft (PPSF) in Dubai?", answer: "Price per square foot is the standard metric for comparing UAE property values. It is calculated by dividing the transaction price by the total area in square feet." },
+    { question: "What does YTD, QTD, MTD mean in real estate analysis?", answer: "Year-to-date (YTD), quarter-to-date (QTD), and month-to-date (MTD) are time-period filters used to compare transaction volumes and pricing within specific windows." },
+    { question: "How do I compare off-plan projects in Dubai?", answer: "Use Triad Realty's Analysis tool to filter by bedroom configuration and market type (primary or secondary), then compare median price per sqft and transaction count across projects." },
+    { question: "What is the difference between primary and secondary market in Dubai real estate?", answer: "Primary market refers to new off-plan launches sold directly by developers. Secondary market refers to resale of already-completed or under-construction properties between investors." },
+  ]);
 
   return (
     <>
@@ -194,7 +203,13 @@ export default function Analysis() {
         <meta property="og:description" content="Compare UAE luxury property developments side-by-side." />
         <meta property="og:type" content="website" />
         <meta property="og:url" content={canonicalUrl} />
+        <meta property="og:image" content="https://res.cloudinary.com/dhxttgpfj/image/upload/v1783444306/three_founders_kuwre9.jpg" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:image" content="https://res.cloudinary.com/dhxttgpfj/image/upload/v1783444306/three_founders_kuwre9.jpg" />
+        <script type="application/ld+json">{JSON.stringify(webAppSchema)}</script>
+        <script type="application/ld+json">{JSON.stringify(faqSchema)}</script>
       </Helmet>
+
 
       <section className="pt-40 pb-12 section-pad bg-white" data-testid="analysis-hero">
         <div className="container-x">

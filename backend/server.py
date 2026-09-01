@@ -2809,8 +2809,11 @@ async def serve_sitemap():
     xml_lines = [
         '<?xml version="1.0" encoding="UTF-8"?>',
         '<!-- Dynamic XML Sitemap Generated for Triad Realty according to Google Sitemap Protocol -->',
-        '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">'
+        '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"'
+        ' xmlns:image="http://www.google.com/schemas/sitemap-image/1.1"'
+        ' xmlns:xhtml="http://www.w3.org/1999/xhtml">'
     ]
+
 
     # Generate sitemap links for static routes
     for route, freq, prio in static_routes:
@@ -2836,14 +2839,29 @@ async def serve_sitemap():
                 except ValueError:
                     pass
 
+            img_url = proj.get("hero") or proj.get("cover", "")
+            img_title = proj.get("name", "")
+            img_caption = proj.get("tagline") or proj.get("description", "")[:120]
+            image_block = ""
+            if img_url:
+                image_block = (
+                    f"    <image:image>\n"
+                    f"      <image:loc>{img_url}</image:loc>\n"
+                    f"      <image:title>{img_title}</image:title>\n"
+                    + (f"      <image:caption>{img_caption}</image:caption>\n" if img_caption else "")
+                    + f"    </image:image>\n"
+                )
+
             xml_lines.append(
                 f"  <url>\n"
                 f"    <loc>{base_url}/projects/{proj['id']}</loc>\n"
                 f"    <lastmod>{lastmod_val}</lastmod>\n"
                 f"    <changefreq>daily</changefreq>\n"
                 f"    <priority>0.9</priority>\n"
+                + image_block +
                 f"  </url>"
             )
+
 
     # Dynamic blog pages sitemap (/blogs/:id)
     # Priority: 0.8, Changefreq: weekly
@@ -2886,10 +2904,174 @@ async def serve_sitemap():
     return Response(content="\n".join(xml_lines), media_type="application/xml")
 
 
+# ---------------------------------------------------------------------------
+# Bot-detection helpers for the catch-all React route
+# ---------------------------------------------------------------------------
+_BOT_UAS = (
+    "googlebot", "bingbot", "slurp", "duckduckbot", "facebookexternalhit",
+    "twitterbot", "linkedinbot", "whatsapp", "telegrambot", "discordbot",
+    "slackbot", "gptbot", "chatgpt-user", "anthropic-ai", "claudebot",
+    "perplexitybot", "cohere-ai", "applebot", "google-extended",
+    "amazonbot", "semrushbot", "ahrefsbot", "mj12bot",
+)
+
+
+def _is_crawler(user_agent: str) -> bool:
+    ua = (user_agent or "").lower()
+    return any(bot in ua for bot in _BOT_UAS)
+
+
+def _escape_xml(text: str) -> str:
+    """Minimal HTML/XML escaping for injected strings."""
+    return (
+        str(text)
+        .replace("&", "&amp;")
+        .replace("<", "&lt;")
+        .replace(">", "&gt;")
+        .replace('"', "&quot;")
+    )
+
+
+async def _build_bot_html(full_path: str, index_html: str, base_url: str) -> str:
+    """Inject page-specific meta + JSON-LD into the HTML shell for crawlers."""
+    import json as _json
+
+    title = "Triad Realty \u2014 Luxury Real Estate Dubai & UAE"
+    description = (
+        "Discreet, data-led property consultancy across Dubai and the Northern Emirates "
+        "\u2014 off-plan investments, resale acquisitions, and luxury portfolio management."
+    )
+    og_image = "https://res.cloudinary.com/dhxttgpfj/image/upload/v1783444306/three_founders_kuwre9.jpg"
+    canonical = f"{base_url}/{full_path.lstrip('/')}"
+    ld_json_blocks = []
+
+    parts = full_path.strip("/").split("/")
+
+    try:
+        # ── /projects/:id ──────────────────────────────────────────────────
+        if len(parts) == 2 and parts[0] == "projects":
+            proj = await db_find_one("projects", {"id": parts[1]})
+            if proj:
+                name = _escape_xml(proj.get("name", "Project"))
+                developer = _escape_xml(proj.get("developer", ""))
+                location = _escape_xml(proj.get("location", "") or proj.get("emirate", "UAE"))
+                desc_raw = proj.get("tagline") or proj.get("description") or ""
+                desc = _escape_xml(desc_raw[:160])
+                price = proj.get("price_from", 0)
+                handover = proj.get("handover", "")
+                hero = proj.get("hero") or proj.get("cover", og_image)
+
+                title = f"{name} by {developer} | Triad Realty"
+                description = f"Discover {name} in {location}. Starting from AED {price:,.0f}. Handover: {handover}. {desc_raw[:80]}"
+                og_image = hero
+
+                ld_json_blocks.append(_json.dumps({
+                    "@context": "https://schema.org",
+                    "@type": "Product",
+                    "name": proj.get("name"),
+                    "description": desc_raw[:500],
+                    "image": hero,
+                    "offers": {
+                        "@type": "Offer",
+                        "priceCurrency": "AED",
+                        "price": price,
+                        "availability": "https://schema.org/InStock",
+                    },
+                    "brand": {"@type": "Brand", "name": proj.get("developer", "Triad Realty")},
+                }, ensure_ascii=False))
+
+        # ── /blogs/:id ──────────────────────────────────────────────────────
+        elif len(parts) == 2 and parts[0] == "blogs":
+            blog = await db_find_one("blogs", {"id": parts[1]})
+            if blog:
+                btitle = _escape_xml(blog.get("title", "Blog"))
+                bexcerpt = blog.get("excerpt") or blog.get("content", "")[:160]
+                bdesc = _escape_xml(bexcerpt)
+                bimage = blog.get("cover", og_image)
+                bauthor = blog.get("author", "Triad Consultant")
+                bdate = blog.get("date", "")
+
+                title = f"{btitle} | Triad Realty Insights"
+                description = bexcerpt[:160]
+                og_image = bimage
+
+                ld_json_blocks.append(_json.dumps({
+                    "@context": "https://schema.org",
+                    "@type": "BlogPosting",
+                    "headline": blog.get("title"),
+                    "image": bimage,
+                    "datePublished": bdate,
+                    "description": bexcerpt[:500],
+                    "author": {"@type": "Person", "name": bauthor},
+                    "publisher": {
+                        "@type": "Organization",
+                        "name": "Triad Realty",
+                        "logo": "https://res.cloudinary.com/dhxttgpfj/image/upload/v1783444277/logo_ciuljv.png",
+                    },
+                }, ensure_ascii=False))
+
+        # ── /team/:id ───────────────────────────────────────────────────────
+        elif len(parts) == 2 and parts[0] == "team":
+            member = await db_find_one("team", {"id": parts[1]})
+            if member:
+                mname = _escape_xml(member.get("name", "Consultant"))
+                mrole = _escape_xml(member.get("role", "Property Consultant"))
+                mspeaks = member.get("speaks", "")
+                mphoto = member.get("photo", og_image)
+
+                title = f"{mname} | {mrole} — Triad Realty"
+                description = f"Contact {member.get('name')}, {mrole} at Triad Realty Dubai. Speaks: {mspeaks}."
+                og_image = mphoto
+
+                ld_json_blocks.append(_json.dumps({
+                    "@context": "https://schema.org",
+                    "@type": "Person",
+                    "name": member.get("name"),
+                    "jobTitle": member.get("role"),
+                    "image": mphoto,
+                    "email": member.get("email"),
+                    "telephone": member.get("phone"),
+                    "worksFor": {
+                        "@type": "Organization",
+                        "name": "Triad Realty",
+                        "url": base_url,
+                    },
+                }, ensure_ascii=False))
+
+    except Exception:
+        # Never break page delivery for crawlers
+        pass
+
+    # Build the injection block
+    og_title = _escape_xml(title)
+    og_desc = _escape_xml(description[:200])
+    ld_scripts = "\n".join(
+        f'    <script type="application/ld+json">{block}</script>'
+        for block in ld_json_blocks
+    )
+
+    injection = (
+        f'    <title>{og_title}</title>\n'
+        f'    <meta name="description" content="{og_desc}" />\n'
+        f'    <meta property="og:title" content="{og_title}" />\n'
+        f'    <meta property="og:description" content="{og_desc}" />\n'
+        f'    <meta property="og:image" content="{og_image}" />\n'
+        f'    <meta property="og:url" content="{canonical}" />\n'
+        f'    <meta name="twitter:card" content="summary_large_image" />\n'
+        f'    <meta name="twitter:title" content="{og_title}" />\n'
+        f'    <meta name="twitter:description" content="{og_desc}" />\n'
+        f'    <meta name="twitter:image" content="{og_image}" />\n'
+        + (ld_scripts + "\n" if ld_scripts else "")
+    )
+
+    # Inject after <head> tag
+    return index_html.replace("<head>", f"<head>\n{injection}", 1)
+
+
 # Catch-all: ALWAYS registered so React Router paths (/projects, /about, …)
 # never return a FastAPI 404. Non-API requests fall through to index.html.
 @app.get("/{full_path:path}")
-async def serve_react(full_path: str):
+async def serve_react(full_path: str, request: Request):
     # Let /api/* routes surface their own 404 from FastAPI
     if full_path.startswith("api") or full_path.startswith("api/"):
         raise HTTPException(status_code=404, detail="Not Found")
@@ -2905,6 +3087,18 @@ async def serve_react(full_path: str):
     requested_file = os.path.join(frontend_path, full_path)
     if full_path and os.path.isfile(requested_file):
         return FileResponse(requested_file)
+
+    # ── Bot-detection: inject page-specific meta for crawlers ───────────────
+    ua = request.headers.get("user-agent", "")
+    if _is_crawler(ua):
+        try:
+            with open(index_file, "r", encoding="utf-8") as f:
+                html = f.read()
+            site_url = os.getenv("SITE_URL", "https://www.triadrealty.ae").rstrip("/")
+            html = await _build_bot_html(full_path, html, site_url)
+            return Response(content=html, media_type="text/html")
+        except Exception:
+            pass  # Fall through to standard FileResponse on any error
 
     # All other paths → hand off to React Router
     return FileResponse(index_file)

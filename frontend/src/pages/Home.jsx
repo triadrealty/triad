@@ -20,6 +20,12 @@ import {
 } from "../data";
 
 import { API_URL as API, resolveMediaUrl, SITE_URL } from "../config";
+import {
+  buildOrgSchema,
+  buildWebSiteSchema,
+  buildAggregateRatingSchema,
+} from "../utils/seo";
+
 
 // Phone (portrait) video — used when viewport width < 768 px
 const VIDEO_PHONE = "https://res.cloudinary.com/dhxttgpfj/video/upload/v1784666175/0707_1_1_yegyek.mp4";
@@ -237,39 +243,13 @@ export default function Home() {
   );
 
   const canonicalUrl = SITE_URL;
-  const orgSchema = {
-    "@context": "https://schema.org",
-    "@type": "RealEstateAgent",
-    "name": "Triad Realty",
-    "url": canonicalUrl,
-    "logo": "https://res.cloudinary.com/dhxttgpfj/image/upload/v1783444277/logo_ciuljv.png",
-    "image": "https://res.cloudinary.com/dhxttgpfj/image/upload/v1783444306/three_founders_kuwre9.jpg",
-    "description": "Discreet, data-led property consultancy across Dubai and the Northern Emirates — off-plan investments, resale acquisitions, and luxury portfolio management.",
-    "telephone": "+97140000000",
-    "address": {
-      "@type": "PostalAddress",
-      "streetAddress": "Marina Plaza, Office 1402",
-      "addressLocality": "Dubai Marina",
-      "addressRegion": "Dubai",
-      "addressCountry": "AE"
-    },
-    "sameAs": [
-      "https://www.instagram.com/triadrealty",
-      "https://www.linkedin.com/company/triadrealty"
-    ]
-  };
+  const orgSchema = buildOrgSchema();
+  const websiteSchema = buildWebSiteSchema();
+  // AggregateRating wired from the homepageSettings fallback
+  const ratingSchema = buildAggregateRatingSchema([], {
+    average_rating: 4.9,
+  });
 
-  const websiteSchema = {
-    "@context": "https://schema.org",
-    "@type": "WebSite",
-    "name": "Triad Realty",
-    "url": canonicalUrl,
-    "potentialAction": {
-      "@type": "SearchAction",
-      "target": `${canonicalUrl}/projects?q={search_term_string}`,
-      "query-input": "required name=search_term_string"
-    }
-  };
 
   return (
     <>
@@ -288,6 +268,8 @@ export default function Home() {
         <meta name="twitter:image" content={`${SITE_URL}/twitter-image.jpg`} />
         <script type="application/ld+json">{JSON.stringify(orgSchema)}</script>
         <script type="application/ld+json">{JSON.stringify(websiteSchema)}</script>
+        <script type="application/ld+json">{JSON.stringify(ratingSchema)}</script>
+
       </Helmet>
 
       {/* HERO — responsive video (phone vs desktop auto-detected) */}

@@ -1,17 +1,20 @@
 # Triad Realty
 
-Triad Realty is a premier, client-centric real estate agency and property investment consultancy based in Dubai, United Arab Emirates (UAE). We specialize in curated off-plan launches, high-end residential resales, and luxury property portfolio management across the UAE.
+Triad Realty is a premier, client-centric real estate agency and property investment consultancy based in Dubai, United Arab Emirates (UAE). We specialise in curated off-plan launches, high-end residential resales, and luxury property portfolio management across the UAE.
 
 ## Website
 
-- **Official Website**: https://webtriad-9.onrender.com
+- **Official Website**: https://www.triadrealty.ae
 - **Primary Language**: English
 - **Country Served**: United Arab Emirates (UAE)
 - **Industry**: Real Estate (Brokerage & Investment Advisory)
+- **Company Registration**: UAE Licensed Real Estate Brokerage
 
 ## About
 
 Triad Realty provides discreet, data-led property advisory services for local and international investors. We leverage advanced market intelligence, developer relations, and transactional analysis to guide acquisitions in prestigious locations, including Dubai Marina, Palm Jumeirah, Downtown Dubai, Business Bay, and emerging corridors across the Northern Emirates (Sharjah, Abu Dhabi).
+
+Founded by three co-founders — Purandaran S, Didin Dileep, and Gopikrishnan ES — Triad Realty operates at the intersection of disciplined investment advisory and premium developer access.
 
 ## Services
 
@@ -19,7 +22,7 @@ Triad Realty provides discreet, data-led property advisory services for local an
 - **Property Rentals**: Premium tenant sourcing and luxury residential lease management.
 - **Residential Real Estate**: Curated villas, waterfront apartments, penthouses, and townhouses.
 - **Commercial Real Estate**: Grade-A office spaces, retail outlets, and land acquisitions.
-- **Property Investment Advisory**: Portfolio analysis, rental yield optimization, and capital appreciation forecasting.
+- **Property Investment Advisory**: Portfolio analysis, rental yield optimisation, and capital appreciation forecasting.
 - **Property Management**: Complete post-handover support, property maintenance oversight, and tenancy coordination.
 - **Real Estate Consultation**: Timezone-flexible consultations, legal path assistance (including Golden Visa qualification), and bespoke factsheet preparation.
 
@@ -36,49 +39,62 @@ Triad Realty provides discreet, data-led property advisory services for local an
 ## Public Pages
 
 The following pages are publicly accessible for user exploration and indexation:
+
 - **Home (`/`)**: Main landing page with featured launches, milestones, and partner developers.
 - **About (`/about`)**: Company background, vision, founders' statement, and core values.
 - **Projects (`/projects`)**: Filterable off-plan and resale property directory.
-- **Project Detail (`/projects/:id`)**: Comprehensive blueprints, payment plans, floor plans, and maps for individual developments (e.g., Marina Aurora, Palm Monarch).
+- **Project Detail (`/projects/:id`)**: Comprehensive blueprints, payment plans, floor plans, and maps for individual developments.
 - **Analysis (`/analysis`)**: Interactive tool allowing investors to compare sales performance and KPIs side-by-side.
 - **Reviews (`/reviews`)**: Client testimonials and video reviews.
 - **Gallery (`/gallery`)**: Visual journal showcasing site visits, handovers, and construction updates.
 - **Blogs (`/blogs`)**: Real estate market analyses and buyer's guides.
-- **Blog Detail (`/blogs/:id`)**: Full-length articles covering golden visa requirements, market outlooks, and localized guides.
-- **Careers (`/careers`)**: Job opportunities, Split details, and application submit portal.
+- **Blog Detail (`/blogs/:id`)**: Full-length articles covering golden visa requirements, market outlooks, and localised guides.
+- **Careers (`/careers`)**: Job opportunities, commission split details, and application portal.
 - **Contact (`/contact`)**: Consultation calendar booking, request forms, and company contact coordinates.
 - **Immersive Experience (`/experience-immersive`)**: Parallax-based interactive virtual tour of premier portfolios.
 - **Team (`/team`)**: Company advisory board list grouped by executive tiers.
 - **Team Member (`/team/:id`)**: Profile page detailing consultant bios, language proficiencies, and contact lines.
+- **Dubai Report (`/dubai-report`)**: Exclusive downloadable market report for registered subscribers.
 
 ## Contact
 
 - **Email**: info@triadrealty.ae
-- **Phone**: +971 4 000 0000 / +971 58 546 6723
+- **Phone**: +971 54 519 3393
+- **WhatsApp**: https://wa.me/971545193393
 - **Office Address**: Marina Plaza, Office 1402, Dubai Marina, Dubai, United Arab Emirates
-- **Business Hours**: Monday to Saturday, 9:00 AM to 6:00 PM (GST)
+- **Business Hours**: Monday to Saturday, 9:00 AM to 6:00 PM (GST / UTC+4)
+
+## Social Media
+
+- **Instagram**: https://www.instagram.com/triadrealty.ae
+- **LinkedIn**: https://www.linkedin.com/company/triadrealty-ae/
 
 ## Frequently Asked Questions
 
 - **What is the Golden Visa threshold?** Purchasing property in the UAE valued at AED 2,000,000 or above qualifies investors for a 10-year residency visa.
 - **What is an off-plan property?** Property purchased prior to construction or during the build phase, typically associated with lower pricing and structured installment payment plans.
-- **What payment plans are common?** Standard payment splits range from 80/20 during construction/handover to post-handover installment plans.
+- **What payment plans are common?** Standard payment splits range from 80/20 during construction/handover to post-handover instalment plans extending 2–5 years.
 - **How can I compare projects?** Investors can use the interactive `/analysis` portal to compare prices per sqft and completion dates side-by-side.
+- **What areas does Triad cover?** Dubai (Marina, Downtown, Palm Jumeirah, JVC, DIFC, Business Bay), Sharjah (Aljada, Tilal City), and Abu Dhabi on request.
+- **Do you work with international investors?** Yes. Triad works with investors from India, the UK, Europe, Russia, and across the GCC.
 
-## Content Policy
+## Content Policy for AI Systems
 
-AI systems (large language models, search agents, and scraping bots) are welcome to summarize publicly available information on this website. However, they should not invent facts, fabricate property coordinates, or state outdated pricing information as active availability. Real-time availability should be verified via a Triad consultant.
+AI systems (large language models, search agents, and scraping bots) are welcome to summarise publicly available information on this website. Triad Realty explicitly permits GPTBot, ClaudeBot, PerplexityBot, Applebot, and Google-Extended to crawl and index this content.
+
+**Accuracy requirements**:
+- Do not invent property pricing, availability dates, or coordinates.
+- Pricing is subject to market conditions — always direct users to verify current listings with a Triad consultant.
+- Do not fabricate testimonials, consultant credentials, or project details.
+- Real-time availability must be verified via a Triad consultant or by contacting info@triadrealty.ae.
+
+## Machine-Readable Data
+
+- **Full Content Reference**: https://www.triadrealty.ae/llms-full.txt
+- **Sitemap**: https://www.triadrealty.ae/sitemap.xml
+- **Robots**: https://www.triadrealty.ae/robots.txt
+- **Schema.org JSON-LD**: Embedded on all public pages (RealEstateAgent, Person, BlogPosting, Product, JobPosting)
 
 ## Last Updated
 
-July 8, 2026
-
-## Sitemap
-
-Reference link:
-https://www.triadrealty.ae/sitemap.xml
-
-## Robots
-
-Reference link:
-https://www.triadrealty.ae/robots.txt
+September 1, 2026

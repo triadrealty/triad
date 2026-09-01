@@ -5,6 +5,8 @@ import axios from "axios";
 import { API_URL as API, resolveMediaUrl, SITE_URL } from "../config";
 import { Helmet } from "react-helmet-async";
 import Breadcrumbs from "../components/Breadcrumbs";
+import { buildPersonSchema, buildBreadcrumbSchema } from "../utils/seo";
+
 
 function toWhatsApp(phone) {
   if (!phone) return "";
@@ -59,51 +61,17 @@ export default function TeamMember() {
   const hasVideos = member.videoUrl || member.videoUrl2;
 
   const canonicalUrl = `${SITE_URL}/team/${id}`;
-  
-  // Person structured data
-  const personSchema = member ? {
-    "@context": "https://schema.org",
-    "@type": "Person",
-    "name": member.name,
-    "jobTitle": member.role || "Real Estate Consultant",
-    "worksFor": {
-      "@type": "Organization",
-      "name": "Triad Realty",
-      "logo": "https://res.cloudinary.com/dhxttgpfj/image/upload/v1783444277/logo_ciuljv.png"
-    },
-    "image": resolveMediaUrl(member.photo),
-    "email": member.email,
-    "telephone": member.phone,
-    "sameAs": [
-      member.linkedin,
-      member.instagram
-    ].filter(Boolean)
-  } : null;
 
-  const breadcrumbsSchema = member ? {
-    "@context": "https://schema.org",
-    "@type": "BreadcrumbList",
-    "itemListElement": [
-      {
-        "@type": "ListItem",
-        "position": 1,
-        "name": "Home",
-        "item": SITE_URL
-      },
-      {
-        "@type": "ListItem",
-        "position": 2,
-        "name": "Team",
-        "item": `${SITE_URL}/team`
-      },
-      {
-        "@type": "ListItem",
-        "position": 3,
-        "name": member.name,
-        "item": canonicalUrl
-      }
-    ]
-  } : null;
+  // Full Person schema with worksFor, knowsLanguage, hasOccupation, and social sameAs
+  const personSchema = buildPersonSchema(
+    { ...member, photo: resolveMediaUrl(member.photo) },
+    canonicalUrl
+  );
+  const breadcrumbsSchema = buildBreadcrumbSchema([
+    { name: "Team", url: `${SITE_URL}/team` },
+    { name: member.name, url: canonicalUrl },
+  ]);
+
 
   return (
     <>

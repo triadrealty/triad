@@ -83,12 +83,17 @@ docker run -p 8000:8000 --env-file backend/.env triad-realty
 
 The `Dockerfile` is a multi-stage build: Node builds the frontend, Python serves everything.
 
-### Render
+### Render (Production Hosting)
 
-Push to your connected Git repository. Render uses `render.yaml` automatically:
-- `buildCommand` — builds frontend + installs Python deps
+This project is hosted on **Render** with continuous deployment linked to `https://github.com/triadrealty/triad.git`.
+Pushing to the `main` branch automatically triggers a zero-downtime deployment on Render.
+
+Render uses [`render.yaml`](render.yaml) automatically:
+- `buildCommand` — builds frontend + installs Python dependencies
 - `startCommand` — `uvicorn server:app --host 0.0.0.0 --port $PORT`
-- Environment variables are managed in the Render Dashboard (see `render.yaml` for the full list).
+- Environment variables are managed in the Render Dashboard.
+
+See [`README-RENDER.md`](README-RENDER.md) for the complete guide to Render deployment and automatic CI/CD configuration.
 
 ---
 

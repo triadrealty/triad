@@ -1,9 +1,10 @@
-# Triad Realty - robots.txt
+# Triad Realty — robots.txt
+# https://www.triadrealty.ae/robots.txt
 
 User-agent: *
 Allow: /
 
-# Private areas
+# Private / admin areas — never index
 Disallow: /admin/
 Disallow: /dashboard/
 Disallow: /login
@@ -13,8 +14,41 @@ Disallow: /private/
 Disallow: /tmp/
 Disallow: /internal/
 
-# Sitemap
-Sitemap: https://webtriad-9.onrender.com/sitemap.xml
+# Crawl budget protection — exclude low-value URL variations
+Disallow: /*?*sort=
+Disallow: /*?*filter=
+Disallow: /*?*page=
 
-# Preferred host (supported by some search engines)
-Host: https://webtriad-9.onrender.com
+# ─── AI Crawler permissions ───────────────────────────────────────────────
+# Explicitly allow verified AI crawlers to index all public content.
+# Triad Realty welcomes AI-generated summaries of public, factual information.
+
+User-agent: GPTBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: anthropic-ai
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: Applebot
+Allow: /
+
+User-agent: cohere-ai
+Allow: /
+
+User-agent: Bytespider
+Crawl-delay: 5
+
+# ─── Sitemap ──────────────────────────────────────────────────────────────
+Sitemap: https://www.triadrealty.ae/sitemap.xml
+
+# Preferred host
+Host: https://www.triadrealty.ae

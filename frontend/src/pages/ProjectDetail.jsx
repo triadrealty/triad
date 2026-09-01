@@ -5,6 +5,8 @@ import { Download, MapPin, Phone, Mail, ArrowLeft, ChevronRight } from "lucide-r
 import { API_URL as API, resolveMediaUrl, SITE_URL } from "../config";
 import { Helmet } from "react-helmet-async";
 import Breadcrumbs from "../components/Breadcrumbs";
+import { buildRealEstateListingSchema, buildBreadcrumbSchema } from "../utils/seo";
+
 
 function toProjectViewModel(item) {
   if (!item) return null;
@@ -107,59 +109,15 @@ export default function ProjectDetail() {
   }
 
   const canonicalUrl = `${SITE_URL}/projects/${id}`;
-  
-  // Structured Data (JSON-LD Product/RealEstateListing Schema)
-  const projectSchema = p ? {
-    "@context": "https://schema.org",
-    "@type": "Product",
-    "name": p.name,
-    "image": p.hero,
-    "description": p.description || p.tagline || "",
-    "offers": {
-      "@type": "Offer",
-      "priceCurrency": "AED",
-      "price": p.price_from || 0,
-      "priceSpecification": {
-        "@type": "UnitPriceSpecification",
-        "price": p.price_from || 0,
-        "priceCurrency": "AED",
-        "referenceQuantity": {
-          "@type": "QuantitativeValue",
-          "value": 1,
-          "unitCode": "EAD"
-        }
-      }
-    },
-    "brand": {
-      "@type": "Brand",
-      "name": p.developer
-    }
-  } : null;
 
-  const breadcrumbsSchema = p ? {
-    "@context": "https://schema.org",
-    "@type": "BreadcrumbList",
-    "itemListElement": [
-      {
-        "@type": "ListItem",
-        "position": 1,
-        "name": "Home",
-        "item": SITE_URL
-      },
-      {
-        "@type": "ListItem",
-        "position": 2,
-        "name": "Projects",
-        "item": `${SITE_URL}/projects`
-      },
-      {
-        "@type": "ListItem",
-        "position": 3,
-        "name": p.name,
-        "item": canonicalUrl
-      }
-    ]
-  } : null;
+  // Full RealEstateListing schema with offers, images, geo, and configuration
+  const projectSchema = buildRealEstateListingSchema(p, canonicalUrl);
+
+  const breadcrumbsSchema = buildBreadcrumbSchema([
+    { name: "Projects", url: `${SITE_URL}/projects` },
+    { name: p.name, url: canonicalUrl },
+  ]);
+
 
   return (
     <>

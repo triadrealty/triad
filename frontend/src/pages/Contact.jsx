@@ -20,6 +20,8 @@ import { API_URL as API, SITE_URL } from "../config";
 import { DIAL_CODES, validatePhone, formatPhoneAsYouType } from "../utils/phoneValidation";
 import { Helmet } from "react-helmet-async";
 import Breadcrumbs from "../components/Breadcrumbs";
+import { buildContactPageSchema } from "../utils/seo";
+
 
 // ─── Available time slots ──────────────────────────────────────────────────────
 const TIME_SLOTS = [
@@ -313,20 +315,9 @@ export default function Contact() {
   const header = getHeaderInfo();
 
   const canonicalUrl = `${SITE_URL}/contact`;
-  const contactPointSchema = {
-    "@context": "https://schema.org",
-    "@type": "ContactPage",
-    "name": "Contact Triad Realty Dubai",
-    "url": canonicalUrl,
-    "description": "Book a consultation, request brochures or floor plans, and speak to our property advisors.",
-    "mainEntity": {
-      "@type": "ContactPoint",
-      "telephone": contact.phone,
-      "contactType": "customer service",
-      "areaServed": "AE",
-      "availableLanguage": ["English", "Arabic", "Russian"]
-    }
-  };
+  // Rich ContactPage + LocalBusiness with geo, opening hours, and multi-language contact points
+  const contactPageSchema = buildContactPageSchema(canonicalUrl);
+
 
   return (
     <>
@@ -338,10 +329,11 @@ export default function Contact() {
         <meta property="og:description" content="Book a luxury off-plan consultation, request brochures/floor plans, or connect with our investment desks." />
         <meta property="og:type" content="website" />
         <meta property="og:url" content={canonicalUrl} />
-        <meta property="og:image" content={`${SITE_URL}/og-image.jpg`} />
+        <meta property="og:image" content="https://res.cloudinary.com/dhxttgpfj/image/upload/v1783444306/three_founders_kuwre9.jpg" />
         <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:image" content={`${SITE_URL}/twitter-image.jpg`} />
-        <script type="application/ld+json">{JSON.stringify(contactPointSchema)}</script>
+        <meta name="twitter:image" content="https://res.cloudinary.com/dhxttgpfj/image/upload/v1783444306/three_founders_kuwre9.jpg" />
+        <script type="application/ld+json">{JSON.stringify(contactPageSchema)}</script>
+
       </Helmet>
 
       <section className="pt-40 pb-12 section-pad bg-white" data-testid="contact-hero">

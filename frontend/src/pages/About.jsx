@@ -6,6 +6,8 @@ import axios from "axios";
 import { API_URL as API, resolveMediaUrl, SITE_URL } from "../config";
 import { Helmet } from "react-helmet-async";
 import Breadcrumbs from "../components/Breadcrumbs";
+import { buildAboutPageSchema } from "../utils/seo";
+
 
 function toWhatsApp(phone) {
   if (!phone) return "";
@@ -324,17 +326,11 @@ export default function About() {
   );
 
   const canonicalUrl = `${SITE_URL}/about`;
-  const aboutSchema = {
-    "@context": "https://schema.org",
-    "@type": "AboutPage",
-    "mainEntity": {
-      "@type": "Organization",
-      "name": "Triad Realty",
-      "url": SITE_URL,
-      "logo": "https://res.cloudinary.com/dhxttgpfj/image/upload/v1783444277/logo_ciuljv.png",
-      "description": "Discreet, data-led property consultancy across Dubai and the Northern Emirates — off-plan investments, resale acquisitions, and luxury portfolio management."
-    }
-  };
+  // Full AboutPage + Corporation schema with founders from the live team data
+  const founders = Array.isArray(team)
+    ? team.filter((m) => m.isFounder || m.tier === "co-founder")
+    : [];
+  const aboutSchema = buildAboutPageSchema(founders, canonicalUrl);
 
   return (
     <>
@@ -346,11 +342,12 @@ export default function About() {
         <meta property="og:description" content="Learn about our team, conviction, and premium real estate advisory services in the UAE." />
         <meta property="og:type" content="website" />
         <meta property="og:url" content={canonicalUrl} />
-        <meta property="og:image" content={`${SITE_URL}/og-image.jpg`} />
+        <meta property="og:image" content="https://res.cloudinary.com/dhxttgpfj/image/upload/v1783444306/three_founders_kuwre9.jpg" />
         <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:image" content={`${SITE_URL}/twitter-image.jpg`} />
+        <meta name="twitter:image" content="https://res.cloudinary.com/dhxttgpfj/image/upload/v1783444306/three_founders_kuwre9.jpg" />
         <script type="application/ld+json">{JSON.stringify(aboutSchema)}</script>
       </Helmet>
+
 
       <section className="relative h-[45vh] min-h-[350px] w-full overflow-hidden bg-neutral-950 flex items-end pb-12 border-b border-white/10" data-testid="about-hero">
         <img

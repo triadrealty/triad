@@ -12,7 +12,7 @@ Technology Stack: React, FastAPI, MongoDB, Tailwind CSS, Cloudinary, PostHog
 Frontend: React (SPA), React Router, React Helmet Async, Tailwind CSS, Lucide React
 Backend: Python 3, FastAPI, Uvicorn, Starlette
 Database: MongoDB Atlas (via PyMongo & Motor)
-Cloud Hosting: AWS (Amazon Web Services), Nginx, Render
+Cloud Hosting: Render
 CMS: Custom Admin Dashboard
 
 /* SOCIAL LINKS */
