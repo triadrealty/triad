@@ -203,9 +203,11 @@ export default function Projects() {
         <meta property="og:description" content="Explore premier off-plan real estate launches and premium resale properties in Dubai, Abu Dhabi, and Sharjah." />
         <meta property="og:type" content="website" />
         <meta property="og:url" content={canonicalUrl} />
-        <meta property="og:image" content={`${SITE_URL}/og-image.jpg`} />
+        <meta property="og:image" content="https://res.cloudinary.com/dhxttgpfj/image/upload/v1783444306/three_founders_kuwre9.jpg" />
+        <meta property="og:image:width" content="1200" />
+        <meta property="og:image:height" content="630" />
         <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:image" content={`${SITE_URL}/twitter-image.jpg`} />
+        <meta name="twitter:image" content="https://res.cloudinary.com/dhxttgpfj/image/upload/v1783444306/three_founders_kuwre9.jpg" />
         <script type="application/ld+json">{JSON.stringify(projectsSchema)}</script>
       </Helmet>
 

@@ -1,8 +1,7 @@
 Contact: mailto:info@triadrealty.ae
 Expires: 2027-07-08T05:23:41Z
 Preferred-Languages: en
-Canonical: https://webtriad-9.onrender.com/.well-known/security.txt
-Policy: https://webtriad-9.onrender.com/security
-Acknowledgments: https://webtriad-9.onrender.com/security
-Hiring: https://webtriad-9.onrender.com/careers
-Encryption: https://webtriad-9.onrender.com/pgp-key.txt
+Canonical: https://www.triadrealty.ae/.well-known/security.txt
+Policy: https://www.triadrealty.ae/security
+Acknowledgments: https://www.triadrealty.ae/security
+Hiring: https://www.triadrealty.ae/careers

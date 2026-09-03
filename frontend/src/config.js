@@ -34,12 +34,13 @@ export const resolveMediaUrl = (url) => {
 };
 
 /** Base URL of the website for SEO, sitemaps, and canonical links.
- *  Defaults to the Render production URL when no env var is provided.
+ *  Production canonical domain is https://www.triadrealty.ae
+ *  Set REACT_APP_SITE_URL in .env.local to override for local dev.
  */
 export const SITE_URL = (
   process.env.REACT_APP_SITE_URL ||
   process.env.SITE_URL ||
   (typeof window !== "undefined" ? window.location.origin : "") ||
-  "https://webtriad-9.onrender.com"
+  "https://www.triadrealty.ae"
 ).replace(/\/$/, "");
 

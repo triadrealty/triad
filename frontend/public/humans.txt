@@ -6,7 +6,7 @@ DevOps: Systems Engineering Desk
 
 /* SITE */
 Company Name: Triad Realty
-Website: https://webtriad-9.onrender.com
+Website: https://www.triadrealty.ae
 Country: United Arab Emirates (UAE)
 Technology Stack: React, FastAPI, MongoDB, Tailwind CSS, Cloudinary, PostHog
 Frontend: React (SPA), React Router, React Helmet Async, Tailwind CSS, Lucide React

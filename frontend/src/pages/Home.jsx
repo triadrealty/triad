@@ -254,22 +254,23 @@ export default function Home() {
   return (
     <>
       <Helmet>
-        <title>Triad Realty | Luxury Real Estate Dubai & UAE Off-Plan</title>
-        <meta name="description" content="Discreet, data-led property consultancy across Dubai and the Northern Emirates. Expert advisory for off-plan investments, resale acquisitions, and portfolios." />
+        <title>Triad Realty | Dubai Real Estate &amp; Off-Plan Properties</title>
+        <meta name="description" content="Triad Realty — Dubai's expert property consultancy for off-plan investments, luxury resale acquisitions, and portfolio management across the UAE." />
         <link rel="canonical" href={canonicalUrl} />
-        <meta property="og:title" content="Triad Realty | Luxury Real Estate Dubai & UAE Off-Plan" />
-        <meta property="og:description" content="Discreet, data-led property consultancy across Dubai and the Northern Emirates." />
+        <meta property="og:title" content="Triad Realty | Dubai Real Estate &amp; Off-Plan Properties" />
+        <meta property="og:description" content="Expert advisory for off-plan investments, luxury resale acquisitions, and portfolio management across Dubai and the UAE." />
         <meta property="og:type" content="website" />
         <meta property="og:url" content={canonicalUrl} />
-        <meta property="og:image" content={`${SITE_URL}/og-image.jpg`} />
+        <meta property="og:image" content="https://res.cloudinary.com/dhxttgpfj/image/upload/v1783444306/three_founders_kuwre9.jpg" />
+        <meta property="og:image:width" content="1200" />
+        <meta property="og:image:height" content="630" />
         <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content="Triad Realty | Luxury Real Estate Dubai & UAE" />
-        <meta name="twitter:description" content="Discreet, data-led property consultancy across Dubai and the Northern Emirates." />
-        <meta name="twitter:image" content={`${SITE_URL}/twitter-image.jpg`} />
+        <meta name="twitter:title" content="Triad Realty | Dubai Real Estate &amp; Off-Plan Properties" />
+        <meta name="twitter:description" content="Expert advisory for off-plan investments, luxury resale acquisitions, and portfolio management across Dubai and the UAE." />
+        <meta name="twitter:image" content="https://res.cloudinary.com/dhxttgpfj/image/upload/v1783444306/three_founders_kuwre9.jpg" />
         <script type="application/ld+json">{JSON.stringify(orgSchema)}</script>
         <script type="application/ld+json">{JSON.stringify(websiteSchema)}</script>
         <script type="application/ld+json">{JSON.stringify(ratingSchema)}</script>
-
       </Helmet>
 
       {/* HERO — responsive video (phone vs desktop auto-detected) */}

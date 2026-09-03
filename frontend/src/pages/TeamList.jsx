@@ -153,12 +153,13 @@ export default function TeamList() {
         <meta property="og:description" content="Meet our specialized team of Dubai property consultants, co-founders, and portfolio managers." />
         <meta property="og:type" content="website" />
         <meta property="og:url" content={canonicalUrl} />
-        <meta property="og:image" content={`${SITE_URL}/og-image.jpg`} />
+        <meta property="og:image" content="https://res.cloudinary.com/dhxttgpfj/image/upload/v1783444306/three_founders_kuwre9.jpg" />
+        <meta property="og:image:width" content="1200" />
+        <meta property="og:image:height" content="630" />
         <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:image" content={`${SITE_URL}/twitter-image.jpg`} />
+        <meta name="twitter:image" content="https://res.cloudinary.com/dhxttgpfj/image/upload/v1783444306/three_founders_kuwre9.jpg" />
         <script type="application/ld+json">{JSON.stringify(teamSchema)}</script>
         <script type="application/ld+json">{JSON.stringify(breadcrumbSchema)}</script>
-
       </Helmet>
 
       <section className="relative h-[45vh] min-h-[350px] w-full overflow-hidden bg-neutral-950 flex items-end pb-12 border-b border-white/10" data-testid="team-hero">

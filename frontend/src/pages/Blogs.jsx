@@ -54,9 +54,11 @@ export function Blogs() {
         <meta property="og:description" content="Discover premium real estate insights and strategic market reports for Dubai and UAE real estate." />
         <meta property="og:type" content="website" />
         <meta property="og:url" content={canonicalUrl} />
-        <meta property="og:image" content={`${SITE_URL}/og-image.jpg`} />
+        <meta property="og:image" content="https://res.cloudinary.com/dhxttgpfj/image/upload/v1783444306/three_founders_kuwre9.jpg" />
+        <meta property="og:image:width" content="1200" />
+        <meta property="og:image:height" content="630" />
         <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:image" content={`${SITE_URL}/twitter-image.jpg`} />
+        <meta name="twitter:image" content="https://res.cloudinary.com/dhxttgpfj/image/upload/v1783444306/three_founders_kuwre9.jpg" />
         <script type="application/ld+json">{JSON.stringify(blogsSchema)}</script>
       </Helmet>
 
