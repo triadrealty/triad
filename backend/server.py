@@ -2749,7 +2749,7 @@ async def serve_upload(filename: str):
 
 @app.get("/robots.txt")
 async def serve_robots():
-    site_url = os.getenv("SITE_URL", "https://webtriad-9.onrender.com").rstrip("/")
+    site_url = os.getenv("SITE_URL", "https://www.triadrealty.ae").rstrip("/")
     content = (
         "# Triad Realty - robots.txt\n\n"
         "User-agent: *\n"
@@ -2773,8 +2773,8 @@ async def serve_robots():
 
 @app.get("/sitemap.xml")
 async def serve_sitemap():
-    # Base URL for sitemap loaded from environment variable SITE_URL
-    base_url = os.getenv("SITE_URL", "https://webtriad-9.onrender.com").rstrip("/")
+    # Base URL for sitemap — always use the production canonical domain
+    base_url = os.getenv("SITE_URL", "https://www.triadrealty.ae").rstrip("/")
     current_date = datetime.now(timezone.utc).strftime('%Y-%m-%d')
 
     # Query all active database items dynamically
